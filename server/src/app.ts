@@ -16,6 +16,21 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Root welcome endpoint
+app.get('/', (_req: Request, res: Response) => {
+  res.json({
+    name: 'Baby Step API',
+    status: 'online',
+    message: 'Welcome to the Baby Step API Server 🌸',
+    endpoints: {
+      health: '/health',
+      products: '/api/products',
+      orders: '/api/orders',
+    },
+    storeFrontend: 'https://baby-step-client.onrender.com',
+  });
+});
+
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
   res.json({
