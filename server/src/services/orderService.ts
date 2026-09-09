@@ -91,7 +91,7 @@ class OrderService {
     if (isFirebaseConfigured && db) {
       try {
         const snapshot = await db.collection('orders').where('userId', '==', userId).get();
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order));
+        return snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as Order));
       } catch (err) {
         console.warn('Error fetching orders from Firestore:', err);
       }

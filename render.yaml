@@ -10,6 +10,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_VERSION
+        value: 22
       - key: PORT
         value: 10000
       - key: CLIENT_ORIGIN
@@ -27,5 +29,7 @@ services:
         source: /*
         destination: /index.html
     envVars:
+      - key: NODE_VERSION
+        value: 22
       - key: VITE_API_BASE_URL
         value: https://baby-step-api.onrender.com/api

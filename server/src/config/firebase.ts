@@ -1,7 +1,9 @@
-import admin from 'firebase-admin';
+import { initializeApp, cert, App } from 'firebase-admin/app';
+import { getFirestore, Firestore } from 'firebase-admin/firestore';
 
 let isFirebaseConfigured = false;
-let db: admin.firestore.Firestore | null = null;
+let db: Firestore | null = null;
+let adminApp: App | null = null;
 
 try {
   const projectId = process.env.FIREBASE_PROJECT_ID;
@@ -9,14 +11,14 @@ try {
   const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
   if (projectId && clientEmail && privateKey) {
-    admin.initializeApp({
-      credential: admin.credential.cert({
+    adminApp = initializeApp({
+      credential: cert({
         projectId,
         clientEmail,
         privateKey,
       }),
     });
-    db = admin.firestore();
+    db = getFirestore(adminApp);
     isFirebaseConfigured = true;
     console.log('✅ Firebase Admin SDK initialized successfully');
   } else {
@@ -26,4 +28,4 @@ try {
   console.warn('⚠️ Could not initialize Firebase Admin:', error);
 }
 
-export { admin, db, isFirebaseConfigured };
+export { adminApp as admin, db, isFirebaseConfigured };

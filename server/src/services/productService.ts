@@ -12,7 +12,7 @@ class ProductService {
       try {
         const snapshot = await db.collection('products').get();
         if (!snapshot.empty) {
-          products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+          products = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as Product));
         } else {
           products = [...this.localProducts];
         }
