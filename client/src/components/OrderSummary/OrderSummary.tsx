@@ -9,6 +9,7 @@ import {
   selectBasketTotal,
   selectBasketItemCount,
 } from '../../features/basket/basketSelectors';
+import { useAuth } from '../../context/AuthContext';
 
 interface OrderSummaryProps {
   onProceedCheckout?: () => void;
@@ -20,6 +21,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   showCheckoutButton = true,
 }) => {
   const navigate = useNavigate();
+  const { user, openAuthModal } = useAuth();
   const subtotal = useAppSelector(selectBasketSubtotal);
   const discount = useAppSelector(selectBasketDiscount);
   const delivery = useAppSelector(selectBasketDelivery);
@@ -34,6 +36,8 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   const handleCheckout = () => {
     if (onProceedCheckout) {
       onProceedCheckout();
+    } else if (user?.isGuest) {
+      openAuthModal(() => navigate('/checkout'));
     } else {
       navigate('/checkout');
     }
@@ -120,7 +124,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
           onClick={handleCheckout}
           disabled={count === 0}
           id="proceed-to-checkout-btn"
-          className="w-full bg-brand-pink hover:bg-brand-pink-soft text-white font-bold py-3.5 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-soft hover:shadow-glow-pink active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px] text-sm sm:text-base"
+          className="w-full bg-gradient-to-r from-brand-pink to-brand-peach hover:brightness-105 text-white font-bold py-3.5 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 border-2 border-brand-pink shadow-[0_4px_14px_rgba(247,168,184,0.4)] ring-2 ring-brand-pink/40 hover:shadow-[0_0_18px_rgba(247,168,184,0.6)] hover:border-white hover:ring-2 hover:ring-brand-pink/80 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-pink/80"
         >
           <span>Proceed to Checkout</span>
           <ArrowRight className="w-4 h-4" />

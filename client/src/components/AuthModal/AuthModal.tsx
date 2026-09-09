@@ -7,7 +7,7 @@ import { Dropdown } from '../Dropdown';
 const GENDER_OPTIONS = ['Male', 'Female', 'Other'];
 
 export const AuthModal: React.FC = () => {
-  const { isAuthModalOpen, closeAuthModal, login, register } = useAuth();
+  const { isAuthModalOpen, closeAuthModal, login, register, authSuccessCallback } = useAuth();
   const { showToast } = useToast();
 
   const [mode, setMode] = useState<'login' | 'register'>('login');
@@ -33,7 +33,11 @@ export const AuthModal: React.FC = () => {
         await register(name, email, password);
         showToast('Account created! Welcome to Baby Step!', 'success', 'check');
       }
+      const callback = authSuccessCallback;
       closeAuthModal();
+      if (callback) {
+        callback();
+      }
     } catch (err: any) {
       setErrorMsg(err.message || 'Authentication failed. Please try again.');
     } finally {
@@ -180,10 +184,18 @@ export const AuthModal: React.FC = () => {
         <div className="mt-5 text-center">
           <button
             type="button"
-            onClick={closeAuthModal}
-            className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
+            onClick={() => {
+              const callback = authSuccessCallback;
+              closeAuthModal();
+              if (callback) {
+                callback();
+              }
+            }}
+            className="text-xs text-slate-400 hover:text-brand-blue font-medium transition-colors"
           >
-            Continue browsing freely as a guest →
+            {authSuccessCallback
+              ? 'Or continue ordering as guest →'
+              : 'Continue browsing freely as a guest →'}
           </button>
         </div>
       </div>

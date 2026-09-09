@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import {
@@ -11,6 +11,7 @@ import {
   Banknote,
   QrCode,
   Sparkles,
+  User,
 } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
@@ -57,7 +58,7 @@ const ADDRESS_TYPES = [
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user } = useAuth();
+  const { user, openAuthModal } = useAuth();
   const { showToast } = useToast();
 
   const items = useAppSelector(selectBasketItems);
@@ -73,6 +74,16 @@ export const CheckoutPage: React.FC = () => {
     email: user && !user.isGuest ? user.email || '' : '',
     phone: '',
   });
+
+  useEffect(() => {
+    if (user && !user.isGuest) {
+      setCustomer((prev) => ({
+        ...prev,
+        name: prev.name || user.displayName || '',
+        email: prev.email || user.email || '',
+      }));
+    }
+  }, [user]);
 
   const [addressType, setAddressType] = useState<string>('Home');
   const [address, setAddress] = useState<OrderAddress>({
@@ -251,6 +262,28 @@ export const CheckoutPage: React.FC = () => {
         <div className="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-6">
           {/* Step 1: Customer Contact Info */}
           <div className="bg-white rounded-3xl p-4 sm:p-6 border border-slate-100 shadow-soft-sm">
+            {/* Guest Sign In / Register Prompt */}
+            {user?.isGuest && (
+              <div className="mb-4 p-3.5 rounded-2xl bg-brand-blue-light/70 border border-brand-baby-blue/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue shrink-0">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-brand-navy">Ordering as Guest</p>
+                    <p className="text-[11px] text-slate-500">Sign in or register to save your address & track your delivery.</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openAuthModal()}
+                  className="inline-flex items-center justify-center gap-1 px-4 py-1.5 rounded-full bg-white hover:bg-brand-blue hover:text-white border border-brand-baby-blue/40 text-brand-blue text-xs font-bold transition-all shadow-soft-sm shrink-0"
+                >
+                  <span>Sign In / Register</span>
+                </button>
+              </div>
+            )}
+
             <h2 className="text-sm sm:text-base font-bold text-brand-navy font-display mb-3 sm:mb-4 flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-brand-blue text-white text-xs font-bold flex items-center justify-center shrink-0">
                 1
@@ -528,7 +561,7 @@ export const CheckoutPage: React.FC = () => {
               type="submit"
               disabled={isSubmitting}
               id="place-order-submit-btn"
-              className="w-full bg-brand-blue hover:bg-brand-blue-soft text-white font-bold py-4 px-6 rounded-2xl transition-all shadow-soft hover:shadow-glow-blue active:scale-98 disabled:opacity-50 text-sm"
+              className="w-full bg-gradient-to-r from-brand-blue to-brand-blue-soft text-white font-bold py-4 px-6 rounded-2xl transition-all border-2 border-brand-blue shadow-[0_4px_14px_rgba(22,137,216,0.35)] ring-2 ring-brand-baby-blue/50 hover:shadow-[0_0_18px_rgba(22,137,216,0.55),0_4px_16px_rgba(22,137,216,0.35)] hover:border-white hover:ring-2 hover:ring-brand-blue/80 hover:brightness-105 active:scale-98 disabled:opacity-50 text-sm focus:outline-none focus:ring-2 focus:ring-brand-baby-blue/80"
             >
               {isSubmitting ? 'Placing Order...' : `Place Order (₹${total})`}
             </button>

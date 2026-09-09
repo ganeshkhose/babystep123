@@ -46,10 +46,10 @@ export const HeroCradle3D: React.FC = () => {
   };
 
   return (
-    <div className="relative mt-2 sm:mt-4 mb-0 flex flex-col items-center justify-center select-none max-w-full px-2">
+    <div className="relative mt-1 sm:mt-2 mb-0 flex flex-col items-center justify-center select-none max-w-full px-2">
       {/* Ambient background glow layers matching brand colors */}
-      <div className="absolute w-96 h-96 sm:w-[580px] sm:h-[580px] md:w-[680px] md:h-[680px] lg:w-[740px] lg:h-[740px] max-w-[98vw] rounded-full bg-gradient-to-tr from-brand-baby-blue/35 via-brand-pink/25 to-brand-peach/30 blur-3xl -z-10 pointer-events-none transform -translate-y-4" />
-      <div className="absolute w-72 h-72 sm:w-[440px] sm:h-[440px] md:w-[500px] md:h-[500px] max-w-[90vw] rounded-full bg-brand-pink/20 blur-2xl -z-10 pointer-events-none animate-pulse duration-1000" />
+      <div className="absolute w-80 h-80 sm:w-[480px] sm:h-[480px] md:w-[560px] md:h-[560px] lg:w-[620px] lg:h-[620px] max-w-[98vw] rounded-full bg-gradient-to-tr from-brand-baby-blue/35 via-brand-pink/25 to-brand-peach/30 blur-3xl -z-10 pointer-events-none transform -translate-y-4" />
+      <div className="absolute w-60 h-60 sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] max-w-[90vw] rounded-full bg-brand-pink/20 blur-2xl -z-10 pointer-events-none animate-pulse duration-1000" />
 
       {/* 3D Interactive Showcase Area */}
       <div
@@ -71,7 +71,7 @@ export const HeroCradle3D: React.FC = () => {
             transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
             transformStyle: 'preserve-3d',
           }}
-          className={`relative w-76 h-76 min-[360px]:w-84 min-[360px]:h-84 sm:w-[500px] sm:h-[500px] md:w-[560px] md:h-[560px] lg:w-[600px] lg:h-[600px] max-w-[96vw] ${
+          className={`relative w-[280px] h-[280px] min-[360px]:w-[320px] min-[360px]:h-[320px] sm:w-[420px] sm:h-[420px] md:w-[470px] md:h-[470px] lg:w-[510px] lg:h-[510px] max-w-[94vw] ${
             !isHovered ? 'animate-float-cradle' : ''
           }`}
         >
@@ -83,7 +83,7 @@ export const HeroCradle3D: React.FC = () => {
             {/* Product 1: Baby Body Lotion (Hanging on String, Left) */}
             <div className="absolute left-[13%] sm:left-[17%] top-[10%] sm:top-[12%] animate-string-swing-1 pointer-events-auto flex flex-col items-center">
               {/* Hanging String */}
-              <div className="w-[1.5px] h-14 sm:h-20 md:h-24 bg-gradient-to-b from-amber-700/50 via-amber-600/35 to-brand-baby-blue/50" />
+              <div className="w-[1.5px] h-12 sm:h-16 md:h-20 bg-gradient-to-b from-amber-700/50 via-amber-600/35 to-brand-baby-blue/50" />
               {/* Attachment Bead */}
               <div className="w-1.5 h-1.5 rounded-full bg-brand-baby-blue border border-white shadow-xs -mt-0.5" />
 
@@ -107,7 +107,7 @@ export const HeroCradle3D: React.FC = () => {
             {/* Product 2: Baby Wash & Shampoo (Hanging on String, Center) */}
             <div className="absolute left-[44%] sm:left-[45%] top-[7%] sm:top-[8%] animate-string-swing-2 pointer-events-auto flex flex-col items-center">
               {/* Hanging String */}
-              <div className="w-[1.5px] h-10 sm:h-14 md:h-18 bg-gradient-to-b from-amber-700/50 via-amber-600/35 to-brand-pink/50" />
+              <div className="w-[1.5px] h-8 sm:h-11 md:h-14 bg-gradient-to-b from-amber-700/50 via-amber-600/35 to-brand-pink/50" />
               {/* Attachment Bead */}
               <div className="w-1.5 h-1.5 rounded-full bg-brand-pink border border-white shadow-xs -mt-0.5" />
 
@@ -131,7 +131,7 @@ export const HeroCradle3D: React.FC = () => {
             {/* Product 3: Baby Balm (Hanging on String, Right) */}
             <div className="absolute right-[13%] sm:right-[17%] top-[10%] sm:top-[12%] animate-string-swing-3 pointer-events-auto flex flex-col items-center">
               {/* Hanging String */}
-              <div className="w-[1.5px] h-14 sm:h-20 md:h-24 bg-gradient-to-b from-amber-700/50 via-amber-600/35 to-brand-peach/50" />
+              <div className="w-[1.5px] h-12 sm:h-16 md:h-20 bg-gradient-to-b from-amber-700/50 via-amber-600/35 to-brand-peach/50" />
               {/* Attachment Bead */}
               <div className="w-1.5 h-1.5 rounded-full bg-brand-peach border border-white shadow-xs -mt-0.5" />
 
@@ -165,7 +165,7 @@ export const HeroCradle3D: React.FC = () => {
         </div>
 
         {/* Dynamic 3D Ground Shadow that breathes with float */}
-        <div className="mx-auto -mt-3 sm:-mt-4 w-56 min-[360px]:w-64 sm:w-[400px] md:w-[460px] lg:w-[500px] h-4 sm:h-5 rounded-full bg-gradient-to-r from-brand-blue/20 via-brand-pink/25 to-brand-baby-blue/20 blur-md animate-pulse-shadow" />
+        <div className="mx-auto -mt-3 sm:-mt-4 w-48 min-[360px]:w-56 sm:w-[340px] md:w-[390px] lg:w-[430px] h-3.5 sm:h-4 rounded-full bg-gradient-to-r from-brand-blue/20 via-brand-pink/25 to-brand-baby-blue/20 blur-md animate-pulse-shadow" />
       </div>
     </div>
   );

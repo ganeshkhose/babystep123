@@ -59,6 +59,11 @@ export default {
         'glow-blue': '0 0 20px rgba(22, 137, 216, 0.22)',
         'glow-pink': '0 0 20px rgba(240, 85, 151, 0.40)',
       },
+      screens: {
+        'xs': '360px',
+        '3xl': '1920px',
+        '4k': '2560px',
+      },
     },
   },
   plugins: [],

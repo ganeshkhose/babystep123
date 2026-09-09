@@ -20,14 +20,11 @@ export interface Product {
 }
 
 export type CategoryName =
+  | 'Home'
   | 'All Products'
   | 'Baby Care'
   | 'Bath & Body'
-  | 'Feeding'
-  | 'Clothing'
-  | 'Toys'
-  | 'Mom & Baby'
-  | 'Daily Essentials';
+  | 'Mom & Baby';
 
 export type AgeGroup =
   | 'All Ages'

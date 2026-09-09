@@ -22,7 +22,7 @@ export const EmptyBag: React.FC = () => {
 
       <Link
         to="/"
-        className="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-soft text-white font-bold py-3.5 px-8 rounded-full transition-all duration-200 shadow-soft hover:shadow-glow-blue hover:scale-105 active:scale-98 text-sm"
+        className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-blue to-brand-blue-soft text-white font-bold py-3 px-8 rounded-full transition-all duration-200 border-2 border-brand-blue shadow-[0_4px_14px_rgba(22,137,216,0.35)] ring-2 ring-brand-baby-blue/50 hover:shadow-[0_0_18px_rgba(22,137,216,0.55),0_4px_16px_rgba(22,137,216,0.35)] hover:border-white hover:ring-2 hover:ring-brand-blue/80 hover:brightness-105 hover:scale-105 active:scale-98 text-sm focus:outline-none focus:ring-2 focus:ring-brand-baby-blue/80"
       >
         <span>Explore Products</span>
         <ArrowRight className="w-4 h-4" />

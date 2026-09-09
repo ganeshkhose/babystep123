@@ -25,7 +25,7 @@ class ProductService {
     }
 
     // Filter by Category
-    if (params.category && params.category !== 'All' && params.category !== 'All Products') {
+    if (params.category && params.category !== 'All' && params.category !== 'All Products' && params.category !== 'Home') {
       const catLower = params.category.toLowerCase().trim();
       products = products.filter(p => p.category.toLowerCase() === catLower);
     }
@@ -77,8 +77,13 @@ class ProductService {
         break;
       case 'recommended':
       default:
-        // Featured products first, then highest rating
+        // Prioritize newly added products, then featured products, then highest rating
         products.sort((a, b) => {
+          const aTime = new Date(a.createdAt || 0).getTime();
+          const bTime = new Date(b.createdAt || 0).getTime();
+          if (aTime !== bTime) {
+            return bTime - aTime;
+          }
           if (a.isFeatured && !b.isFeatured) return -1;
           if (!a.isFeatured && b.isFeatured) return 1;
           return b.rating - a.rating;
@@ -111,10 +116,57 @@ class ProductService {
     };
 
     if (isFirebaseConfigured && db) {
-      await db.collection('products').doc(newProduct.id).set(newProduct);
+      try {
+        await db.collection('products').doc(newProduct.id).set(newProduct);
+      } catch (err) {
+        console.warn('Firestore createProduct error:', err);
+      }
     }
     this.localProducts.unshift(newProduct);
     return newProduct;
+  }
+
+  async updateProduct(id: string, updates: Partial<Product>): Promise<Product | null> {
+    const existing = await this.getProductById(id);
+    if (!existing) return null;
+
+    const updated: Product = {
+      ...existing,
+      ...updates,
+      id,
+    };
+
+    if (isFirebaseConfigured && db) {
+      try {
+        await db.collection('products').doc(id).set(updated, { merge: true });
+      } catch (err) {
+        console.warn(`Firestore updateProduct error for ${id}:`, err);
+      }
+    }
+
+    const index = this.localProducts.findIndex(p => p.id === id);
+    if (index !== -1) {
+      this.localProducts[index] = updated;
+    } else {
+      this.localProducts.unshift(updated);
+    }
+    return updated;
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    const existing = await this.getProductById(id);
+    if (!existing) return false;
+
+    if (isFirebaseConfigured && db) {
+      try {
+        await db.collection('products').doc(id).delete();
+      } catch (err) {
+        console.warn(`Firestore deleteProduct error for ${id}:`, err);
+      }
+    }
+
+    this.localProducts = this.localProducts.filter(p => p.id !== id);
+    return true;
   }
 }
 

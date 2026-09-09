@@ -19,12 +19,14 @@ import { fetchProductById } from '../../services/productService';
 import { useAppDispatch } from '../../app/hooks';
 import { addToBag } from '../../features/basket/basketSlice';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export const ProductDetailsPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
+  const { user, openAuthModal } = useAuth();
 
   const [quantity, setQuantity] = useState<number>(1);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -41,7 +43,7 @@ export const ProductDetailsPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] 3xl:max-w-[1680px] 4k:max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="aspect-square bg-slate-100 rounded-3xl animate-shimmer" />
           <div className="space-y-4">
@@ -82,12 +84,16 @@ export const ProductDetailsPage: React.FC = () => {
 
   const handleBuyNow = () => {
     dispatch(addToBag({ product, quantity }));
-    showToast(`Proceeding to checkout with ${product.name}`, 'info', 'bag');
-    navigate('/checkout');
+    if (user?.isGuest) {
+      openAuthModal(() => navigate('/checkout'));
+    } else {
+      showToast(`Proceeding to checkout with ${product.name}`, 'info', 'bag');
+      navigate('/checkout');
+    }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10">
+    <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] 3xl:max-w-[1680px] 4k:max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10">
       {/* Breadcrumb Navigation with horizontal scroll on small screens */}
       <nav className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 overflow-x-auto whitespace-nowrap no-scrollbar py-1">
         <Link to="/" className="hover:text-brand-blue transition-colors shrink-0">
@@ -260,7 +266,7 @@ export const ProductDetailsPage: React.FC = () => {
               <button
                 onClick={handleAddToBag}
                 id="details-add-to-bag-btn"
-                className="flex-1 flex items-center justify-center gap-2 bg-brand-blue hover:bg-brand-blue-soft text-white font-bold py-3.5 px-6 rounded-2xl shadow-soft hover:shadow-glow-blue transition-all active:scale-98 text-sm min-h-[48px]"
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-brand-blue to-brand-blue-soft text-white font-bold py-3.5 px-6 rounded-2xl border-2 border-brand-blue shadow-[0_4px_14px_rgba(22,137,216,0.35)] ring-2 ring-brand-baby-blue/50 hover:shadow-[0_0_18px_rgba(22,137,216,0.55),0_4px_16px_rgba(22,137,216,0.35)] hover:border-white hover:ring-2 hover:ring-brand-blue/80 hover:brightness-105 transition-all active:scale-98 text-sm min-h-[48px] focus:outline-none focus:ring-2 focus:ring-brand-baby-blue/80"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>Add to Bag</span>
@@ -269,7 +275,7 @@ export const ProductDetailsPage: React.FC = () => {
               <button
                 onClick={handleBuyNow}
                 id="details-buy-now-btn"
-                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-brand-blue via-brand-blue-soft to-brand-baby-blue text-white font-bold py-3.5 px-6 rounded-2xl shadow-soft hover:shadow-glow-blue transition-all active:scale-98 text-sm min-h-[48px]"
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-brand-pink to-brand-peach text-white font-bold py-3.5 px-6 rounded-2xl border-2 border-brand-pink shadow-[0_4px_14px_rgba(247,168,184,0.4)] ring-2 ring-brand-pink/40 hover:shadow-[0_0_18px_rgba(247,168,184,0.6)] hover:border-white hover:ring-2 hover:ring-brand-pink/80 hover:brightness-105 transition-all active:scale-98 text-sm min-h-[48px] focus:outline-none focus:ring-2 focus:ring-brand-pink/80"
               >
                 <Zap className="w-4 h-4" />
                 <span>Buy Now</span>

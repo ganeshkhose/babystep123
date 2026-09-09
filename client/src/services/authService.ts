@@ -15,7 +15,7 @@ const LOCAL_USER_KEY = 'baby_step_user';
 export const createDefaultGuestUser = (): UserProfile => ({
   uid: 'guest_' + Math.random().toString(36).substring(2, 9),
   email: null,
-  displayName: 'Guest Parent',
+  displayName: 'Guest',
   isGuest: true,
   createdAt: new Date().toISOString(),
 });
@@ -24,7 +24,11 @@ export const getCurrentLocalUser = (): UserProfile => {
   try {
     const saved = localStorage.getItem(LOCAL_USER_KEY);
     if (saved) {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.isGuest) {
+        parsed.displayName = 'Guest';
+      }
+      return parsed;
     }
   } catch {
     // Ignore error

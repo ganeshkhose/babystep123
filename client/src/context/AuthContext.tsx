@@ -15,8 +15,9 @@ interface AuthContextValue {
   register: (name: string, email: string, pass: string) => Promise<UserProfile>;
   logout: () => Promise<void>;
   isAuthModalOpen: boolean;
-  openAuthModal: () => void;
+  openAuthModal: (onSuccess?: () => void) => void;
   closeAuthModal: () => void;
+  authSuccessCallback?: (() => void) | null;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -25,6 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<UserProfile | null>(getCurrentLocalUser());
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [authSuccessCallback, setAuthSuccessCallback] = useState<(() => void) | null>(null);
 
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges((currentUser) => {
@@ -51,6 +53,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(guest);
   };
 
+  const openAuthModal = (onSuccess?: () => void) => {
+    if (onSuccess) {
+      setAuthSuccessCallback(() => onSuccess);
+    } else {
+      setAuthSuccessCallback(null);
+    }
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+    setAuthSuccessCallback(null);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -60,8 +76,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         register,
         logout,
         isAuthModalOpen,
-        openAuthModal: () => setIsAuthModalOpen(true),
-        closeAuthModal: () => setIsAuthModalOpen(false),
+        openAuthModal,
+        closeAuthModal,
+        authSuccessCallback,
       }}
     >
       {children}

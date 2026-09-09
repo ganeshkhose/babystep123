@@ -10,7 +10,9 @@
   }
 
   body {
-    @apply bg-[#F5ECF3] text-slate-600 font-sans antialiased;
+    background: linear-gradient(135deg, #FDE2EE 0%, #F6ECF5 45%, #D4ECFA 100%) !important;
+    background-attachment: fixed !important;
+    @apply text-slate-600 font-sans antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
     width: 100%;
@@ -32,6 +34,25 @@
   button, a, input, select, textarea {
     touch-action: manipulation;
   }
+}
+
+/* Responsive container with fluid clamp padding for all screens from 320px mobile to 4K projectors */
+.responsive-container {
+  width: 100%;
+  max-width: 1680px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.75rem, 2.5vw, 2.5rem);
+  padding-right: clamp(0.75rem, 2.5vw, 2.5rem);
+}
+
+/* Safe area insets for mobile notched displays */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0.5rem));
 }
 
 /* Custom Soft Pastel Aesthetic Utilities */

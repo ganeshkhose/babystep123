@@ -14,6 +14,7 @@ import { ProductsPage } from './pages/Products/ProductsPage';
 import { ProductDetailsPage } from './pages/ProductDetails/ProductDetailsPage';
 import { BagPage } from './pages/Bag/BagPage';
 import { CheckoutPage } from './pages/Checkout/CheckoutPage';
+import { AdminPage } from './pages/Admin';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,15 @@ const queryClient = new QueryClient({
   },
 });
 
+// Decoupled customer storefront layout wrapper
+const CustomerStorefrontLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex flex-col min-h-screen bg-transparent text-slate-700">
+    <Navbar />
+    <main className="flex-1 pb-20 md:pb-0">{children}</main>
+    <Footer />
+  </div>
+);
+
 export const App: React.FC = () => {
   return (
     <Provider store={store}>
@@ -31,23 +41,29 @@ export const App: React.FC = () => {
         <AuthProvider>
           <ToastProvider>
             <BrowserRouter>
-              <div className="flex flex-col min-h-screen bg-[#F5ECF3] text-slate-700">
-                <Navbar />
+              <Routes>
+                {/* Dedicated Admin Portal Route (Independent Layout for Future Extraction) */}
+                <Route path="/admin" element={<AdminPage />} />
 
-                <main className="flex-1 pb-20 md:pb-0">
-                  <Routes>
-                    <Route path="/" element={<ProductsPage />} />
-                    <Route path="/products/:productId" element={<ProductDetailsPage />} />
-                    <Route path="/bag" element={<BagPage />} />
-                    <Route path="/checkout" element={<CheckoutPage />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Routes>
-                </main>
+                {/* Customer Storefront Routes */}
+                <Route
+                  path="/*"
+                  element={
+                    <CustomerStorefrontLayout>
+                      <Routes>
+                        <Route path="/" element={<ProductsPage />} />
+                        <Route path="/products/:productId" element={<ProductDetailsPage />} />
+                        <Route path="/bag" element={<BagPage />} />
+                        <Route path="/checkout" element={<CheckoutPage />} />
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                      </Routes>
+                    </CustomerStorefrontLayout>
+                  }
+                />
+              </Routes>
 
-                <Footer />
-                <ToastContainer />
-                <AuthModal />
-              </div>
+              <ToastContainer />
+              <AuthModal />
             </BrowserRouter>
           </ToastProvider>
         </AuthProvider>

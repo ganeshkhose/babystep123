@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Sparkles, ShieldCheck, Feather, Truck } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -7,7 +6,7 @@ export const Footer: React.FC = () => {
     <footer className="bg-white border-t border-slate-100 mt-20">
       {/* Why Parents Choose Baby Step - 4 Key Benefits */}
       <div className="border-b border-slate-100 bg-gradient-to-b from-brand-cream to-white">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] 3xl:max-w-[1680px] 4k:max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div className="text-center mb-6 sm:mb-10">
             <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue-light/70 px-3 py-1 rounded-full">
               Our Promise to Families
@@ -65,7 +64,7 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Links & Wordmark */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] 3xl:max-w-[1680px] 4k:max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 text-center md:text-left">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <img src="/logo.png" alt="The Baby Step - Baby Care Products" className="h-10 sm:h-12 w-auto object-contain rounded-lg drop-shadow-sm" />
@@ -74,22 +73,17 @@ export const Footer: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-slate-600 font-medium">
-            <Link to="/" className="hover:text-brand-blue transition-colors py-1">
-              Products
-            </Link>
-            <Link to="/bag" className="hover:text-brand-pink transition-colors py-1">
-              Add to Bag
-            </Link>
-            <span className="text-slate-300 hidden sm:inline">•</span>
-            <span className="text-slate-500 py-1">Pediatrician Approved</span>
-            <span className="text-slate-300 hidden sm:inline">•</span>
-            <span className="text-slate-500 py-1">Cruelty Free</span>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-xs text-slate-400">
+            <span>© {new Date().getFullYear()} Baby Step. All rights reserved.</span>
+            <span className="hidden sm:inline text-slate-300">•</span>
+            <a
+              href="/admin"
+              className="text-slate-400 hover:text-brand-blue font-medium transition-colors"
+              title="Access Store Admin Portal"
+            >
+              Admin Portal
+            </a>
           </div>
-
-          <p className="text-xs text-slate-400">
-            © {new Date().getFullYear()} Baby Step. All rights reserved.
-          </p>
         </div>
       </div>
     </footer>

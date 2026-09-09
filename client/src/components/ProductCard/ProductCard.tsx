@@ -114,10 +114,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           onClick={handleAddToBag}
           id={`add-to-bag-${product.id}`}
           aria-label={`Add ${product.name} to bag`}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 active:scale-95 shadow-sm min-h-[38px] shrink-0 ${
+          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 active:scale-95 border-2 min-h-[36px] shrink-0 focus:outline-none ${
             justAdded
-              ? 'bg-emerald-500 text-white'
-              : 'bg-brand-blue text-white hover:bg-brand-blue-soft hover:shadow-glow-blue'
+              ? 'bg-emerald-500 border-emerald-500 text-white shadow-soft ring-2 ring-emerald-200'
+              : 'bg-gradient-to-r from-brand-blue to-brand-blue-soft border-brand-blue text-white shadow-[0_2px_8px_rgba(22,137,216,0.3)] ring-1 ring-brand-baby-blue/40 hover:shadow-[0_0_14px_rgba(22,137,216,0.45)] hover:border-white hover:ring-2 hover:ring-brand-blue/70 hover:scale-105 focus:ring-2 focus:ring-brand-baby-blue/80'
           }`}
         >
           {justAdded ? (
