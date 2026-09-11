@@ -1,6 +1,7 @@
 import { Order, OrderItem, GuestInfo, ShippingAddress } from '../types/index.js';
 import { productService } from './productService.js';
 import { db, isFirebaseConfigured } from '../config/firebase.js';
+import { calculateOrderFinancials } from '../constants/pricing.js';
 
 interface CreateOrderInput {
   userId?: string;
@@ -52,11 +53,8 @@ class OrderService {
       });
     }
 
-    // Business rule: Special promotional discount for orders above ₹999
-    const discount = subtotal >= 999 ? 100 : 0;
-    // Business rule: Free delivery for all orders above ₹499
-    const delivery = subtotal >= 499 ? 0 : 49;
-    const total = Math.max(0, subtotal - discount + delivery);
+    // Calculate verified discount, delivery, and total using centralized pricing rules
+    const { discount, delivery, total } = calculateOrderFinancials(subtotal);
 
     const orderId = `BS-${Math.floor(100000 + Math.random() * 900000)}`;
 

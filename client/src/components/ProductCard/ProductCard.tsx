@@ -1,28 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Star, Heart, ShoppingBag, Check } from 'lucide-react';
 import { Product } from '../../types/product';
-import { useAppDispatch } from '../../app/hooks';
-import { addToBag } from '../../features/basket/basketSlice';
-import { useToast } from '../../context/ToastContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const dispatch = useAppDispatch();
-  const { showToast } = useToast();
   const [isFavorite, setIsFavorite] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
 
   const handleAddToBag = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    dispatch(addToBag({ product, quantity: 1 }));
-    showToast(`Added ${product.name} to your bag`, 'success', 'bag');
-
+    // Visual UI feedback without state mutation
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1500);
   };
@@ -31,11 +22,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     setIsFavorite(!isFavorite);
-    showToast(
-      !isFavorite ? `Saved ${product.name} to wishlist` : `Removed from wishlist`,
-      'info',
-      'heart'
-    );
   };
 
   return (
@@ -43,14 +29,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div>
         {/* Card Image Container */}
         <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-slate-50 mb-3">
-          <Link to={`/products/${product.id}`} className="block w-full h-full">
+          <div className="block w-full h-full cursor-default select-none">
             <img
               src={product.imageUrl}
               alt={product.name}
               className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
             />
-          </Link>
+          </div>
 
           {/* Discount Badge */}
           {product.discountPercentage && product.discountPercentage > 0 && (
@@ -63,7 +49,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             onClick={toggleFavorite}
             aria-label={isFavorite ? 'Remove from wishlist' : 'Save to wishlist'}
-            className="absolute top-2 right-2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-sm flex items-center justify-center text-slate-400 hover:text-brand-pink transition-all hover:scale-110 active:scale-90"
+            className="absolute top-2 right-2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-sm flex items-center justify-center text-slate-400 hover:text-brand-pink transition-all hover:scale-110 active:scale-90 cursor-pointer"
           >
             <Heart
               className={`w-4 h-4 transition-colors ${
@@ -86,11 +72,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Product Title */}
-        <Link to={`/products/${product.id}`} className="block group-hover:text-brand-blue transition-colors px-0.5">
+        <div className="block group-hover:text-brand-blue transition-colors px-0.5 cursor-default select-none">
           <h3 className="text-sm sm:text-base font-bold text-brand-navy line-clamp-1 leading-snug mb-1">
             {product.name}
           </h3>
-        </Link>
+        </div>
 
         {/* Short Description */}
         <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed mb-2.5 px-0.5">
@@ -101,7 +87,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Pricing & Add to Bag Footer */}
       <div className="pt-2 border-t border-slate-50 flex items-center justify-between gap-1.5">
         <div className="flex flex-col min-w-0">
-          <div className="flex items-baseline gap-1">
+          <div className="flex items-baseline gap-1 flex-wrap">
             <span className="text-base sm:text-lg font-extrabold text-brand-navy">₹{product.price}</span>
             {product.originalPrice && product.originalPrice > product.price && (
               <span className="text-[10px] sm:text-xs text-slate-400 line-through">₹{product.originalPrice}</span>
@@ -113,8 +99,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <button
           onClick={handleAddToBag}
           id={`add-to-bag-${product.id}`}
+          type="button"
           aria-label={`Add ${product.name} to bag`}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 active:scale-95 border-2 min-h-[36px] shrink-0 focus:outline-none ${
+          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 active:scale-95 border-2 min-h-[36px] shrink-0 focus:outline-none cursor-pointer ${
             justAdded
               ? 'bg-emerald-500 border-emerald-500 text-white shadow-soft ring-2 ring-emerald-200'
               : 'bg-gradient-to-r from-brand-blue to-brand-blue-soft border-brand-blue text-white shadow-[0_2px_8px_rgba(22,137,216,0.3)] ring-1 ring-brand-baby-blue/40 hover:shadow-[0_0_14px_rgba(22,137,216,0.45)] hover:border-white hover:ring-2 hover:ring-brand-blue/70 hover:scale-105 focus:ring-2 focus:ring-brand-baby-blue/80'
@@ -136,3 +123,5 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     </div>
   );
 };
+
+export default ProductCard;

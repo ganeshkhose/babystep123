@@ -4,6 +4,7 @@ import { db, isFirebaseConfigured } from '../config/firebase.js';
 
 class ProductService {
   private localProducts: Product[] = [...INITIAL_PRODUCTS];
+  private isRestored = false;
 
   async getProducts(params: ProductQueryParams = {}): Promise<Product[]> {
     let products: Product[] = [];
@@ -22,6 +23,24 @@ class ProductService {
       }
     } else {
       products = [...this.localProducts];
+    }
+
+    // Ensure all initial products are available
+    const productMap = new Map<string, Product>();
+    for (const initProd of INITIAL_PRODUCTS) {
+      productMap.set(initProd.id, initProd);
+    }
+    for (const p of products) {
+      productMap.set(p.id, p);
+    }
+    products = Array.from(productMap.values());
+
+    // One-time restore of initial products to Firestore
+    if (!this.isRestored && isFirebaseConfigured && db) {
+      this.isRestored = true;
+      for (const initProd of INITIAL_PRODUCTS) {
+        db.collection('products').doc(initProd.id).set(initProd, { merge: true }).catch(() => {});
+      }
     }
 
     // Filter by Category
