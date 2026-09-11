@@ -36,35 +36,9 @@
   }
 }
 
-/* Responsive container with fluid clamp padding for all screens from 320px mobile to 4K projectors */
-.responsive-container {
-  width: 100%;
-  max-width: 1680px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: clamp(0.75rem, 2.5vw, 2.5rem);
-  padding-right: clamp(0.75rem, 2.5vw, 2.5rem);
-}
-
 /* Safe area insets for mobile notched displays */
 .pb-safe {
   padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
-}
-
-.pt-safe {
-  padding-top: max(0.5rem, env(safe-area-inset-top, 0.5rem));
-}
-
-/* Custom Soft Pastel Aesthetic Utilities */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.soft-shadow {
-  box-shadow: 0 10px 25px -5px rgba(22, 137, 216, 0.06), 0 8px 10px -6px rgba(240, 85, 151, 0.08);
 }
 
 .soft-card-hover {
@@ -74,41 +48,6 @@
 .soft-card-hover:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 30px -8px rgba(22, 137, 216, 0.10), 0 10px 14px -6px rgba(240, 85, 151, 0.12);
-}
-
-/* Custom scrollbar for pleasant browsing */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #F1F5F9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
-}
-
-/* Shimmer animation for skeletons */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, #F1F5F9 25%, #F8FAFC 50%, #F1F5F9 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
 }
 
 /* 3D Cradle Floating & Rocking Animations */
@@ -147,15 +86,6 @@
 .animate-pulse-shadow {
   animation: pulse-shadow 5.5s ease-in-out infinite;
   will-change: transform, opacity;
-}
-
-/* Hide scrollbar utility */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 @keyframes soft-twinkle {
