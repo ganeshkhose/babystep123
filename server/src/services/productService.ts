@@ -126,67 +126,6 @@ class ProductService {
     }
     return this.localProducts.find(p => p.id === id) || null;
   }
-
-  async createProduct(data: Omit<Product, 'id' | 'createdAt'>): Promise<Product> {
-    const newProduct: Product = {
-      ...data,
-      id: `bs-${Date.now()}`,
-      createdAt: new Date().toISOString(),
-    };
-
-    if (isFirebaseConfigured && db) {
-      try {
-        await db.collection('products').doc(newProduct.id).set(newProduct);
-      } catch (err) {
-        console.warn('Firestore createProduct error:', err);
-      }
-    }
-    this.localProducts.unshift(newProduct);
-    return newProduct;
-  }
-
-  async updateProduct(id: string, updates: Partial<Product>): Promise<Product | null> {
-    const existing = await this.getProductById(id);
-    if (!existing) return null;
-
-    const updated: Product = {
-      ...existing,
-      ...updates,
-      id,
-    };
-
-    if (isFirebaseConfigured && db) {
-      try {
-        await db.collection('products').doc(id).set(updated, { merge: true });
-      } catch (err) {
-        console.warn(`Firestore updateProduct error for ${id}:`, err);
-      }
-    }
-
-    const index = this.localProducts.findIndex(p => p.id === id);
-    if (index !== -1) {
-      this.localProducts[index] = updated;
-    } else {
-      this.localProducts.unshift(updated);
-    }
-    return updated;
-  }
-
-  async deleteProduct(id: string): Promise<boolean> {
-    const existing = await this.getProductById(id);
-    if (!existing) return false;
-
-    if (isFirebaseConfigured && db) {
-      try {
-        await db.collection('products').doc(id).delete();
-      } catch (err) {
-        console.warn(`Firestore deleteProduct error for ${id}:`, err);
-      }
-    }
-
-    this.localProducts = this.localProducts.filter(p => p.id !== id);
-    return true;
-  }
 }
 
 export const productService = new ProductService();

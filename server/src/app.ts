@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import productRoutes from './routes/productRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -16,6 +16,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Serve static product assets
+app.use('/products', express.static(path.join(process.cwd(), 'public', 'products')));
+
 // Root welcome endpoint
 app.get('/', (_req: Request, res: Response) => {
   res.json({
@@ -25,9 +28,8 @@ app.get('/', (_req: Request, res: Response) => {
     endpoints: {
       health: '/health',
       products: '/api/products',
-      orders: '/api/orders',
     },
-    storeFrontend: 'https://baby-step-client.onrender.com',
+    storeFrontend: 'https://babystep123-1.onrender.com',
   });
 });
 
@@ -42,7 +44,6 @@ app.get('/health', (_req: Request, res: Response) => {
 
 // API Routes
 app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
 
 // Centralized error handling
 app.use(errorHandler);
