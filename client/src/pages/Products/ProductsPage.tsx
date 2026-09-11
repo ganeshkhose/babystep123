@@ -36,10 +36,11 @@ export const ProductsPage: React.FC = () => {
 
   // Keep search params in sync
   useEffect(() => {
-    const cat = searchParams.get('category') as CategoryName;
+    const rawCat = searchParams.get('category') as CategoryName;
+    const cat = (rawCat && rawCat !== 'All Products') ? rawCat : 'Home';
     const q = searchParams.get('q');
-    if (cat && cat !== filters.category) {
-      setFilters(prev => ({ ...prev, category: cat === 'All Products' ? 'Home' : cat }));
+    if (cat !== filters.category) {
+      setFilters(prev => ({ ...prev, category: cat }));
     }
     if (q !== null && q !== filters.searchQuery) {
       setFilters(prev => ({ ...prev, searchQuery: q }));
