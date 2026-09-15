@@ -11,6 +11,46 @@ interface ProductFiltersProps {
   totalResults?: number;
 }
 
+interface SearchInputProps {
+  id: string;
+  value: string;
+  onChange: (query: string) => void;
+  inputClassName: string;
+  iconSizeClass?: string;
+  clearButtonClass?: string;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({
+  id,
+  value,
+  onChange,
+  inputClassName,
+  iconSizeClass = 'left-2.5 w-4 h-4',
+  clearButtonClass = 'right-1.5 w-5 h-5 hover:bg-slate-100',
+}) => (
+  <div className="relative flex items-center w-full">
+    <Search className={`absolute text-brand-blue pointer-events-none ${iconSizeClass}`} />
+    <input
+      id={id}
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder="Search essentials (e.g. wipes, lotion)..."
+      className={inputClassName}
+    />
+    {value && (
+      <button
+        type="button"
+        onClick={() => onChange('')}
+        aria-label="Clear search"
+        className={`absolute rounded-full text-slate-400 hover:text-slate-700 transition-colors flex items-center justify-center active:scale-95 cursor-pointer ${clearButtonClass}`}
+      >
+        <X className="w-3.5 h-3.5" />
+      </button>
+    )}
+  </div>
+);
+
 export const ProductFilters: React.FC<ProductFiltersProps> = ({
   filters,
   onFilterChange,
@@ -29,25 +69,13 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
         </div>
 
         {/* Full Search Bar - Seamless White */}
-        <div className="relative flex items-center flex-1 ml-0.5">
-          <Search className="absolute left-2.5 w-4 h-4 text-brand-blue pointer-events-none" />
-          <input
+        <div className="flex-1 ml-0.5">
+          <SearchInput
             id="mobile-main-search"
-            type="text"
             value={filters.searchQuery || ''}
-            onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
-            placeholder="Search essentials (e.g. wipes, lotion)..."
-            className="w-full bg-transparent border-0 outline-none pl-8 pr-7 py-1 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0"
+            onChange={(q) => onFilterChange({ searchQuery: q })}
+            inputClassName="w-full bg-transparent border-0 outline-none pl-8 pr-7 py-1 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0"
           />
-          {filters.searchQuery && (
-            <button
-              onClick={() => onFilterChange({ searchQuery: '' })}
-              aria-label="Clear search"
-              className="absolute right-1.5 w-5 h-5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors flex items-center justify-center active:scale-95 cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
         </div>
       </div>
 
@@ -88,26 +116,14 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
 
         {/* Desktop Search Box */}
         <div className="w-56 xl:w-64 2xl:w-72 max-w-xs mx-2 shrink">
-          <div className="relative flex items-center w-full">
-            <Search className="absolute left-3 w-3.5 h-3.5 text-brand-blue pointer-events-none" />
-            <input
-              id="main-search-input"
-              type="text"
-              value={filters.searchQuery || ''}
-              onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
-              placeholder="Search essentials (e.g. wipes, lotion)..."
-              className="w-full bg-slate-100/80 hover:bg-white focus:bg-white border-2 border-slate-200/70 hover:border-brand-baby-blue/70 focus:border-brand-blue rounded-full pl-8 sm:pl-9 pr-8 py-1.5 text-xs text-slate-800 placeholder-slate-400 shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-baby-blue/50 focus:shadow-[0_0_12px_rgba(22,137,216,0.25)] transition-all"
-            />
-            {filters.searchQuery && (
-              <button
-                onClick={() => onFilterChange({ searchQuery: '' })}
-                aria-label="Clear search"
-                className="absolute right-2 w-5 h-5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors flex items-center justify-center active:scale-95 cursor-pointer"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            )}
-          </div>
+          <SearchInput
+            id="main-search-input"
+            value={filters.searchQuery || ''}
+            onChange={(q) => onFilterChange({ searchQuery: q })}
+            iconSizeClass="left-3 w-3.5 h-3.5"
+            clearButtonClass="right-2 w-5 h-5 hover:bg-slate-200/60"
+            inputClassName="w-full bg-slate-100/80 hover:bg-white focus:bg-white border-2 border-slate-200/70 hover:border-brand-baby-blue/70 focus:border-brand-blue rounded-full pl-8 sm:pl-9 pr-8 py-1.5 text-xs text-slate-800 placeholder-slate-400 shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-baby-blue/50 focus:shadow-[0_0_12px_rgba(22,137,216,0.25)] transition-all"
+          />
         </div>
 
         {/* Desktop Right Action Group: Add to Bag + Login/Account */}

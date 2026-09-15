@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Sparkles,
   ShieldCheck,
@@ -102,9 +103,12 @@ export const Footer: React.FC = () => {
                 <Phone className="w-3.5 h-3.5 text-brand-blue shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold text-slate-700">Contact:</span>{' '}
-                  <span className="font-medium text-slate-700 select-none">
+                  <a
+                    href="tel:+919876543210"
+                    className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 cursor-pointer transition-colors inline-block"
+                  >
                     +91 98765 43210
-                  </span>
+                  </a>
                 </div>
               </li>
 
@@ -112,9 +116,14 @@ export const Footer: React.FC = () => {
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold text-slate-700">WhatsApp:</span>{' '}
-                  <span className="text-emerald-600 font-medium select-none">
+                  <a
+                    href="https://wa.me/919876543210"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-600 hover:text-emerald-700 hover:underline underline-offset-2 font-medium cursor-pointer transition-colors inline-block"
+                  >
                     Chat on WhatsApp
-                  </span>
+                  </a>
                 </div>
               </li>
 
@@ -122,9 +131,12 @@ export const Footer: React.FC = () => {
                 <Mail className="w-3.5 h-3.5 text-brand-pink shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold text-slate-700">Email:</span>{' '}
-                  <span className="font-medium text-slate-700 select-none">
+                  <a
+                    href="mailto:care@thebabystep.com"
+                    className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 cursor-pointer transition-colors inline-block"
+                  >
                     care@thebabystep.com
-                  </span>
+                  </a>
                 </div>
               </li>
 
@@ -132,9 +144,12 @@ export const Footer: React.FC = () => {
                 <FileText className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold text-slate-700">Grievance:</span>{' '}
-                  <span className="font-medium text-slate-700 select-none">
+                  <a
+                    href="mailto:grievance@thebabystep.com"
+                    className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 cursor-pointer transition-colors inline-block"
+                  >
                     grievance@thebabystep.com
-                  </span>
+                  </a>
                 </div>
               </li>
             </ul>
@@ -152,19 +167,22 @@ export const Footer: React.FC = () => {
             <h3 className="text-xs sm:text-sm font-bold text-brand-navy font-display uppercase tracking-wider">
               Quick Links
             </h3>
-            <ul className="space-y-1.5 text-xs text-slate-600 select-none">
+            <ul className="space-y-1.5 text-xs text-slate-600">
               <li>
-                <span className="font-medium text-slate-600 hover:text-brand-navy cursor-default transition-colors">
+                <span className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 cursor-pointer transition-colors inline-block">
                   Track Order
                 </span>
               </li>
               <li>
-                <span className="font-medium text-slate-600 hover:text-brand-navy cursor-default transition-colors">
-                  Return Policy
-                </span>
+                <Link
+                  to="/return-policy"
+                  className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 transition-colors cursor-pointer inline-block"
+                >
+                  Return & Refund Policy
+                </Link>
               </li>
               <li>
-                <span className="font-medium text-slate-600 hover:text-brand-navy cursor-default transition-colors">
+                <span className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 cursor-pointer transition-colors inline-block">
                   Shipping Policy
                 </span>
               </li>
@@ -176,14 +194,17 @@ export const Footer: React.FC = () => {
             <h3 className="text-xs sm:text-sm font-bold text-brand-navy font-display uppercase tracking-wider">
               Policies
             </h3>
-            <ul className="space-y-1.5 text-xs text-slate-600 select-none">
+            <ul className="space-y-1.5 text-xs text-slate-600">
               <li>
-                <span className="font-medium text-slate-600 hover:text-brand-navy cursor-default transition-colors">
+                <Link
+                  to="/privacy-policy"
+                  className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 transition-colors cursor-pointer inline-block"
+                >
                   Privacy Policy
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="font-medium text-slate-600 hover:text-brand-navy cursor-default transition-colors">
+                <span className="font-medium text-slate-600 hover:text-brand-blue hover:underline underline-offset-2 cursor-pointer transition-colors inline-block">
                   Terms & Conditions
                 </span>
               </li>
@@ -198,10 +219,10 @@ export const Footer: React.FC = () => {
             <p className="text-xs text-slate-500 leading-relaxed">
               Connect with us for gentle parenting tips & exclusive updates.
             </p>
-            <div className="flex items-center gap-2 pt-0.5 select-none">
+            <div className="flex items-center gap-2 pt-0.5">
               <span
                 aria-label="Follow us on X"
-                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-105 shadow-2xs cursor-default"
+                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-110 hover:text-brand-blue hover:border-brand-blue/40 shadow-2xs cursor-pointer"
                 title="X"
               >
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -211,7 +232,7 @@ export const Footer: React.FC = () => {
 
               <span
                 aria-label="Follow us on Facebook"
-                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-105 shadow-2xs cursor-default"
+                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-110 hover:text-brand-blue hover:border-brand-blue/40 shadow-2xs cursor-pointer"
                 title="Facebook"
               >
                 <Facebook className="w-4 h-4" />
@@ -219,7 +240,7 @@ export const Footer: React.FC = () => {
 
               <span
                 aria-label="Follow us on Instagram"
-                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-105 shadow-2xs cursor-default"
+                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-110 hover:text-brand-pink hover:border-brand-pink/40 shadow-2xs cursor-pointer"
                 title="Instagram"
               >
                 <Instagram className="w-4 h-4" />
@@ -227,7 +248,7 @@ export const Footer: React.FC = () => {
 
               <span
                 aria-label="Follow us on YouTube"
-                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-105 shadow-2xs cursor-default"
+                className="w-8 h-8 rounded-full bg-white/95 text-slate-700 border border-[#EDE1EA] transition-all duration-200 flex items-center justify-center hover:scale-110 hover:text-red-500 hover:border-red-300 shadow-2xs cursor-pointer"
                 title="YouTube"
               >
                 <Youtube className="w-4 h-4" />

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import productRoutes from './routes/productRoutes.js';
+import adminAuthRoutes from './routes/adminAuthRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.get('/', (_req: Request, res: Response) => {
     endpoints: {
       health: '/health',
       products: '/api/products',
+      adminAuth: '/api/auth/admin',
     },
     storeFrontend: 'https://babystep123-1.onrender.com',
   });
@@ -44,6 +46,7 @@ app.get('/health', (_req: Request, res: Response) => {
 
 // API Routes
 app.use('/api/products', productRoutes);
+app.use('/api/auth/admin', adminAuthRoutes);
 
 // Centralized error handling
 app.use(errorHandler);

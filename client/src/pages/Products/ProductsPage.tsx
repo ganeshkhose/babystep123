@@ -29,6 +29,29 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   onSearchChange,
 }) => {
   const [internalFilters, setInternalFilters] = useState<FilterState>(initialFilters);
+  const [catalogProducts, setCatalogProducts] = useState(SAMPLE_PRODUCTS);
+
+  // Fetch live products from database/backend on load
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLiveProducts = async () => {
+      try {
+        const res = await fetch('/api/products');
+        if (res.ok) {
+          const json = await res.json();
+          if (isMounted && json.data && json.data.length > 0) {
+            setCatalogProducts(json.data);
+          }
+        }
+      } catch (err) {
+        // Fallback to SAMPLE_PRODUCTS ensures zero downtime
+      }
+    };
+    fetchLiveProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Synchronize when controlled from parent Navbar/App
   useEffect(() => {
@@ -46,9 +69,9 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   const currentCategory = activeCategory !== undefined ? activeCategory : internalFilters.category;
   const currentSearch = searchQuery !== undefined ? searchQuery : internalFilters.searchQuery;
 
-  // In-memory instant filtering for static UI display
+  // In-memory instant filtering for dynamic product catalog
   const filteredProducts = useMemo(() => {
-    let result = [...SAMPLE_PRODUCTS];
+    let result = [...catalogProducts];
 
     if (currentCategory && currentCategory !== 'Home' && currentCategory !== 'All Products') {
       const cat = currentCategory.toLowerCase().trim();
@@ -66,7 +89,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
     }
 
     return result;
-  }, [currentCategory, currentSearch]);
+  }, [catalogProducts, currentCategory, currentSearch]);
 
   const handleFilterChange = (newFilters: Partial<FilterState>) => {
     if (newFilters.category !== undefined && onCategoryChange) {

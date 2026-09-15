@@ -7,6 +7,20 @@ export const STORE_CATEGORIES: CategoryName[] = [
   'Mom & Baby',
 ];
 
+export const PRODUCT_CATEGORIES = [
+  'Baby Care',
+  'Bath & Body',
+  'Mom & Baby',
+] as const;
+
+export const AGE_GROUPS = [
+  'All Ages',
+  '0-6 months',
+  '6-12 months',
+  '1-2 years',
+  '2+ years',
+] as const;
+
 export interface MobileCategoryItem {
   name: string;
   label: string;

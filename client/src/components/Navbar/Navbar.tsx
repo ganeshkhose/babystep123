@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, User, Search, X, LayoutGrid, ChevronRight } from 'lucide-react';
-import { UserAccountMenu } from '../UserAccountMenu';
+import { ShoppingBag, User, X, LayoutGrid, ChevronRight } from 'lucide-react';
 import { MOBILE_CATEGORIES } from '../../constants/categories';
 
 interface NavbarProps {
@@ -13,15 +12,8 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   activeCategory = 'Home',
   onSelectCategory,
-  searchQuery = '',
-  onSearchChange,
 }) => {
   const [categorySheetOpen, setCategorySheetOpen] = useState(false);
-  const [localSearch, setLocalSearch] = useState(searchQuery);
-
-  useEffect(() => {
-    setLocalSearch(searchQuery);
-  }, [searchQuery]);
 
   const handleCategoryClick = (catName: string) => {
     setCategorySheetOpen(false);
@@ -31,20 +23,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     const section = document.getElementById('products-section');
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleMobileSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearchChange) {
-      onSearchChange(localSearch.trim());
-    }
-  };
-
-  const handleClearSearch = () => {
-    setLocalSearch('');
-    if (onSearchChange) {
-      onSearchChange('');
     }
   };
 
@@ -66,87 +44,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-gradient-to-r from-brand-baby-blue/15 via-[#F5ECF3]/90 to-brand-pink/15 backdrop-blur-md border-b border-brand-baby-blue/25 shadow-[0_4px_20px_-4px_rgba(22,137,216,0.06)] transition-all duration-200 hidden">
-        {/* Mobile View: Logo + Seamless Search Box */}
-        <div className="md:hidden py-1.5 px-2.5">
-          <div className="w-full bg-white/95 backdrop-blur-md rounded-lg px-2.5 sm:px-4 py-1.5 border border-brand-baby-blue/30 shadow-[0_6px_24px_rgb(0,0,0,0.06)] flex items-center gap-2.5">
-            {/* Logo */}
-            <div className="flex items-center shrink-0 cursor-default select-none" title="The Baby Step - Home">
-              <img
-                src="/logo.png"
-                alt="The Baby Step - Baby Care Products"
-                className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105 filter drop-shadow-xs"
-              />
-            </div>
-
-            {/* Search Bar */}
-            <form onSubmit={handleMobileSearchSubmit} className="relative flex items-center flex-1 ml-0.5">
-              <Search className="absolute left-2.5 w-4 h-4 text-brand-blue pointer-events-none" />
-              <input
-                id="mobile-subpage-search"
-                type="text"
-                value={localSearch}
-                onChange={(e) => {
-                  setLocalSearch(e.target.value);
-                  if (onSearchChange) onSearchChange(e.target.value);
-                }}
-                placeholder="Search essentials (e.g. wipes, lotion)..."
-                className="w-full bg-transparent border-0 outline-none pl-8 pr-7 py-1 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0"
-              />
-              {localSearch && (
-                <button
-                  type="button"
-                  onClick={handleClearSearch}
-                  aria-label="Clear search"
-                  className="absolute right-1.5 w-5 h-5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors flex items-center justify-center active:scale-95 cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </form>
-          </div>
-        </div>
-
-        {/* Desktop View (Visible on md+) */}
-        <div className="hidden md:block max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] 3xl:max-w-[1680px] 4k:max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Brand Logo */}
-            <div className="flex items-center group py-1 cursor-default select-none" title="The Baby Step - Home">
-              <img
-                src="/logo.png"
-                alt="The Baby Step - Baby Care Products"
-                className="h-12 sm:h-16 md:h-[66px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm"
-              />
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-1.5 rounded-full border border-brand-baby-blue/40 shadow-soft-sm">
-              <button
-                type="button"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                id="nav-tab-home"
-                className="px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 border-2 focus:outline-none bg-gradient-to-r from-brand-blue to-brand-blue-soft text-white border-brand-blue shadow-[0_4px_14px_rgba(22,137,216,0.35)] ring-2 ring-brand-baby-blue/50 scale-[1.02] cursor-pointer"
-              >
-                Home
-              </button>
-
-              <div
-                id="nav-tab-add-to-bag"
-                className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 border-2 focus:outline-none bg-slate-100/90 text-slate-700 border-slate-200/70 hover:bg-white hover:text-brand-blue hover:border-brand-blue hover:ring-2 hover:ring-brand-baby-blue/60 hover:shadow-[0_0_14px_rgba(22,137,216,0.3),0_2px_8px_rgba(22,137,216,0.12)] hover:scale-105 cursor-default select-none"
-              >
-                <ShoppingBag className="w-4 h-4" />
-                <span>Add to Bag</span>
-                <span className="text-xs font-medium text-slate-400">(0)</span>
-              </div>
-            </nav>
-
-            {/* Desktop Utility Actions */}
-            <div className="flex items-center gap-3">
-              <UserAccountMenu id="user-account-btn" size="md" />
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Persistent Mobile Bottom Navigation Bar (md:hidden) */}
       <nav
